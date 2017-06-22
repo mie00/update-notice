@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ "$1" = "0000000000000000000000000000000000000000" ]; then
+	x=
+else
+	x=$(git diff --ignore-all-space --ignore-blank-lines --word-diff=porcelain "$1".."$2" -- UPDATENOTICE | grep -v "^+++" | grep "^+" | cut -c 2-)
+fi
+
+if [ -n "$x" ]; then
+	printf "\e[31;1mBreaking Changes:\e[0m\n"
+	echo "$x"
+fi
+
